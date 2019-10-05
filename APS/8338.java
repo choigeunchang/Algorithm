@@ -1,33 +1,51 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
 
 public class Solution {
 
+	static char[] cal = {'+', '*'};
+	static int n;
+	static int[] arr;
+	static int max;
+	
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		int test_case = Integer.parseInt(bf.readLine());
 		
 		for(int t=1; t<=test_case; t++) {
-		
-			int n = Integer.parseInt(bf.readLine());
-			int[] arr = new int[n];
-			String str = bf.readLine();
-			StringTokenizer st = new StringTokenizer(str);
-			int idx = 0;
-			while(st.hasMoreTokens()) {
-				arr[idx] = Integer.parseInt(st.nextToken());
-				idx++;
-			}
-			int max = arr[0];
-			for(int i=1; i<n; i++) {
-				
-				if(arr[i] < 2 || max < 2)
-					max += arr[i];
-				else
-					max *= arr[i];
-			}
-			System.out.println("#" + t + " " + max);
+			
+			n = Integer.parseInt(bf.readLine());
+			arr = new int[n];
+			StringTokenizer st = new StringTokenizer(bf.readLine());
+			for(int i=0; i<n; i++)
+				arr[i] = Integer.parseInt(st.nextToken());
+			
+			int temp = arr[0];
+			max = 0;
+			calculation(temp, 1);
+			
+			bw.write("#" + t + " " + max + "\n");
+			bw.flush();
 		}
+		bw.close();
+	}
+
+	static void calculation(int temp, int idx) {
+		
+		if(idx == arr.length) {
+			
+			if(max < temp)
+				max = temp;
+			return;
+		}
+		
+		calculation(temp*arr[idx], idx+1);
+		calculation(temp+arr[idx], idx+1);
 	}
 }
