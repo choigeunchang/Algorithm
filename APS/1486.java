@@ -6,11 +6,10 @@ import java.io.OutputStreamWriter;
 import java.util.StringTokenizer;
 
 public class Solution {
-
-	static int count;
-	static int k;
-	static int n;
+	
 	static int[] arr;
+	static int temp;
+	static int min;
 	
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		
@@ -19,38 +18,37 @@ public class Solution {
 		int test_case = Integer.parseInt(bf.readLine());
 		for(int t=1; t<=test_case; t++) {
 			
-			String str = bf.readLine();
-			StringTokenizer st = new StringTokenizer(str);
-			n = Integer.parseInt(st.nextToken());
-			k = Integer.parseInt(st.nextToken());
+			StringTokenizer st = new StringTokenizer(bf.readLine());
+			int n = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
 			arr = new int[n];
-			
-			str = bf.readLine();
-			st = new StringTokenizer(str);
+			st = new StringTokenizer(bf.readLine());
 			for(int i=0; i<n; i++)
 				arr[i] = Integer.parseInt(st.nextToken());
 			
-			count = 0;
-			Combi(0, 0);
-			
-			bw.write("#" + t + " " + count + "\n");
+			temp = 0;
+			min = Integer.MAX_VALUE;
+			recur(0, n, b, 0);
+			bw.write("#" + t + " " + min + "\n");
 			bw.flush();
 		}
 		bw.close();
 	}
 	
-	static void Combi(int sum, int idx) {
+	static void recur(int sum, int n, int b, int idx) {
 		
-		if(sum > k)
-			return;
-		if(sum == k) {
-			count++;
+		if(idx == arr.length) {
+			
+			if(sum >= b) {
+				temp = sum - b;
+				if(min > temp)
+					min = temp;				
+			}
+			
 			return;
 		}
-		if(idx == n)
-			return;
 		
-		Combi(sum+arr[idx], idx+1);
-		Combi(sum, idx+1);
+		recur(sum + arr[idx], n, b, idx+1);
+		recur(sum, n, b, idx+1);
 	}
 }

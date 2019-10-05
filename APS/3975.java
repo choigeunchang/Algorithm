@@ -7,11 +7,6 @@ import java.util.StringTokenizer;
 
 public class Solution {
 
-	static int count;
-	static int k;
-	static int n;
-	static int[] arr;
-	
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
@@ -21,36 +16,23 @@ public class Solution {
 			
 			String str = bf.readLine();
 			StringTokenizer st = new StringTokenizer(str);
-			n = Integer.parseInt(st.nextToken());
-			k = Integer.parseInt(st.nextToken());
-			arr = new int[n];
+			float a = Integer.parseInt(st.nextToken());
+			float b = Integer.parseInt(st.nextToken());
+			float c = Integer.parseInt(st.nextToken());
+			float d = Integer.parseInt(st.nextToken());
 			
-			str = bf.readLine();
-			st = new StringTokenizer(str);
-			for(int i=0; i<n; i++)
-				arr[i] = Integer.parseInt(st.nextToken());
+			float alice = a / b;
+			float bob = c/ d;
 			
-			count = 0;
-			Combi(0, 0);
+			String result = "#" + t + " DRAW";
+			if(alice > bob)
+				result = "#" + t + " ALICE";
+			else if(alice < bob)
+				result = "#" + t + " BOB";
 			
-			bw.write("#" + t + " " + count + "\n");
+			bw.write(result + "\n");
 			bw.flush();
 		}
 		bw.close();
-	}
-	
-	static void Combi(int sum, int idx) {
-		
-		if(sum > k)
-			return;
-		if(sum == k) {
-			count++;
-			return;
-		}
-		if(idx == n)
-			return;
-		
-		Combi(sum+arr[idx], idx+1);
-		Combi(sum, idx+1);
 	}
 }
